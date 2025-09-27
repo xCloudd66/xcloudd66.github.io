@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Manager</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- For index.html -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+
+<body>
+
+    <div class="container text-center">
+        <h1>Slide Resim Yönetimi</h1>
+        <ul class="list-unstyled">
+            {% for image_file in image_files %}
+                <li>
+                    <a class="btn btn-link" href="{{ url_for('remove', filename=image_file) }}">Sil</a>
+                    <img class="img-fluid" src="{{ url_for('static', filename='images/thumbnails/thumb_' + image_file) }}" alt="{{ image_file }}">
+                    <p>{{ image_file }}</p>
+                    <!-- Add more information as needed -->
+                </li>
+            {% endfor %}
+        </ul>
+        <form class="text-center" action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <br>
+            <input class="btn btn-success" type="submit" value="Yükle">
+        </form>
+        <form class="text-center" action="{{ url_for('logout') }}" method="get">
+            <input class="btn btn-danger logout-button" type="submit" value="Çıkış">
+        </form>
+
+        <div id="sabah-form">
+            <div class="input-container">
+                <label for="sabah-input">Sabah Namazı Cemaatle Kılınış Vakti:</label>
+                <input class="form-control" type="text" id="sabah-input" name="sabah-input">
+            </div>
+            <button class="btn btn-primary" type="button" onclick="updateSabah()">Güncelle</button>
+        </div>
+
+        <div id="newsflash-form">
+            <div class="input-container">
+                <label for="newsflash-text-input">Aktüel Bilgiler:</label>
+                <input class="form-control" type="text" id="newsflash-text-input" name="newsflash-text-input" placeholder="">
+            </div>
+            <button class="btn btn-primary" type="button" onclick="updateNewsflash()">Ekle</button>
+        </div>
+
+        <!-- Add this section in your HTML file to display the list of newsflash entries -->
+        <div id="newsflash-list">
+            <h2>Aktüel Bilgiler Listesi</h2>
+            <ul id="newsflash-ul" class="list-group">
+                <!-- Newsflash entries will be added dynamically here -->
+            </ul>
+        </div>
+
+
+    </div>
+
+    <!-- Bootstrap JS dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Link your external JavaScript file for index scripts -->
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+
+</html>
